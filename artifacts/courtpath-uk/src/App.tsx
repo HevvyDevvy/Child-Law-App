@@ -34,20 +34,25 @@ const templates: Template[] = [
     sourceFile: 'Official_Form_6.2_Note_of_Appeal.docx', estimatedMinutes: 18,
     caution: 'This is a drafting companion. Check the current Sheriff Appeal Court form, rules and time limit before filing.',
     sections: [
-      { id: 'case', title: 'Case and people', intro: 'Start with the identifiers exactly as they appear on the order or decision.', fields: [
-        { id: 'court', label: 'Court and court reference', help: 'Include the sheriff court and case number.', required: true, placeholder: 'Example: Glasgow Sheriff Court, F00/24' },
-        { id: 'appellant', label: 'Appellant name', help: 'The person bringing the appeal.', required: true, placeholder: 'Full legal name' },
-        { id: 'respondent', label: 'Respondent name', help: 'The other party or parties.', required: true, placeholder: 'Full legal name' },
-        { id: 'decisionDate', label: 'Date of decision being appealed', help: 'Use the date shown on the decision.', required: true, type: 'date' },
+      { id: 'case', title: 'Cause and parties', intro: 'Start with the identifiers exactly as they appear on the order or decision.', fields: [
+        { id: 'court', label: 'Sheriff court, nature of decision and reference', help: 'State the sheriff court, what kind of decision is being appealed, and the court reference number.', required: true, placeholder: 'Example: Glasgow Sheriff Court — interlocutor on contact — F00/24' },
+        { id: 'appellant', label: 'Pursuer and appellant', help: 'Use the party’s full designation and address, if required by the current form.', required: true, placeholder: 'Full legal name and address' },
+        { id: 'respondent', label: 'Defender and respondent', help: 'Use the other party or parties’ full designation and address, if required.', required: true, placeholder: 'Full legal name and address' },
+        { id: 'decisionDate', label: 'Date of decision being appealed', help: 'Use the date shown on the decision or interlocutor.', required: true, type: 'date' },
       ] },
       { id: 'grounds', title: 'Grounds of appeal', intro: 'Keep each ground focused on a specific alleged error. Separate facts you know from your view of the outcome.', fields: [
         { id: 'decision', label: 'Decision or order being appealed', help: 'Briefly state what the court decided.', required: true, type: 'textarea', placeholder: 'On [date], the court decided that…' },
         { id: 'grounds', label: 'Numbered grounds', help: 'Use one numbered ground per line. Avoid argument by insult or speculation.', required: true, type: 'textarea', placeholder: '1. The court…\n2. The court…', warning: 'Check every ground against the reasons for the decision and the current appeal rules.' },
         { id: 'orders', label: 'Orders sought', help: 'State the practical outcome you ask the appeal court to make.', required: true, type: 'textarea', placeholder: 'The appellant asks the court to…' },
       ] },
-      { id: 'practical', title: 'Practical details', intro: 'Add only information you can support and check the appeal timetable.', fields: [
-        { id: 'permission', label: 'Permission or procedural note', help: 'Note whether permission is required or has been given, if known.', type: 'textarea', placeholder: 'Permission position or other procedural detail' },
-        { id: 'contact', label: 'Safe contact details', help: 'Use an address and email where the court can contact you safely.', required: true, type: 'textarea', placeholder: 'Postal address and email' },
+      { id: 'sheriff-note', title: 'Sheriff’s note', intro: 'Select or explain the position on the sheriff’s note setting out the reasons for the decision.', fields: [
+        { id: 'sheriffNote', label: 'Availability of sheriff’s note', help: 'Say whether the note is appended, requested but unavailable, requested now, or whether the appeal is said to be urgent without it.', required: true, type: 'select', options: ['Note provided and appended', 'Requested but not yet available', 'Not provided — request the sheriff to write one', 'Urgent appeal requested without the note'] },
+        { id: 'sheriffNoteReason', label: 'Reason or urgency explanation', help: 'If the note is unavailable, explain the request briefly in numbered points.', type: 'textarea', placeholder: 'The note is unavailable because… The appeal is urgent because…' },
+      ] },
+      { id: 'caseManagement', title: 'Initial case management', intro: 'Give your view on whether the appeal should proceed before one Appeal Sheriff or three Appeal Sheriffs.', fields: [
+        { id: 'procedure', label: 'Preferred procedure', help: 'Choose the procedure you ask the court to consider, taking account of the current rules.', required: true, type: 'select', options: ['Procedure before one Appeal Sheriff (Chapter 8)', 'Procedure before three Appeal Sheriffs (Chapter 7)', 'Not sure — seek advice'] },
+        { id: 'procedureReasons', label: 'Reasons for that procedure', help: 'State briefly why that procedure is suitable, without arguing the whole appeal here.', type: 'textarea', placeholder: 'The appeal is suitable for this procedure because…' },
+        { id: 'contact', label: 'Appellant contact and signature details', help: 'Use an address, email and telephone number where the court can contact you safely; add the signatory’s role or solicitor business address.', required: true, type: 'textarea', placeholder: 'Name, role, postal address, email, telephone and signature position' },
       ] },
     ],
   },
@@ -57,11 +62,14 @@ const templates: Template[] = [
     sourceFile: 'Official_Form_6.5A_Certificate_of_Intimation.docx', estimatedMinutes: 10,
     caution: 'Confirm the permitted method, recipient and deadline with the current court rules or court office.',
     sections: [{ id: 'intimation', title: 'Intimation record', intro: 'Make the record precise. Keep proof of sending or service with your working papers.', fields: [
-      { id: 'court', label: 'Court and court reference', help: 'Copy this from the case paperwork.', required: true, placeholder: 'Court and reference' },
-      { id: 'document', label: 'Document intimated', help: 'Name the document or decision.', required: true, placeholder: 'Name of document' },
-      { id: 'recipient', label: 'Person intimated', help: 'Name and role of the recipient.', required: true, placeholder: 'Name and role' },
-      { id: 'method', label: 'Method of intimation', help: 'For example, email, post or personal service. Check what is allowed.', required: true, type: 'select', options: ['Email', 'First-class post', 'Recorded delivery', 'Personal service', 'Other'] },
+      { id: 'cause', label: 'Appeal cause and parties', help: 'Set out the pursuer/appellant and defender/respondent exactly as they appear in the appeal.', required: true, type: 'textarea', placeholder: 'Pursuer and appellant… against defender and respondent…' },
+      { id: 'court', label: 'Court and court reference', help: 'Copy this from the case paperwork.', required: true, placeholder: 'Sheriff Appeal Court and reference' },
+      { id: 'document', label: 'Document or matter intimated', help: 'Name the document or other matter being intimated.', required: true, placeholder: 'Name of document or matter' },
+      { id: 'recipient', label: 'Person receiving intimation', help: 'Name the receiving party or person and their role.', required: true, placeholder: 'Name and role' },
+      { id: 'method', label: 'Method of intimation', help: 'State the method authorised by the current rule. Do not assume email or post is sufficient.', required: true, type: 'select', options: ['Email', 'First-class post', 'Recorded delivery', 'Personal service', 'Other — verify'] },
       { id: 'date', label: 'Date of intimation', help: 'The date it was sent or delivered.', required: true, type: 'date' },
+      { id: 'signatory', label: 'Certifying person and role', help: 'Identify the appellant/respondent, solicitor or sheriff officer certifying the intimation.', required: true, placeholder: 'Name and role' },
+      { id: 'businessAddress', label: 'Business or postal address', help: 'Add the business address of the solicitor or sheriff officer where applicable.', type: 'textarea', placeholder: 'Address, email and telephone if relevant' },
       { id: 'proof', label: 'Proof kept', help: 'Describe the receipt, sent email, certificate or other evidence.', required: true, type: 'textarea', placeholder: 'I have kept…' },
     ] } ],
   },
@@ -70,27 +78,52 @@ const templates: Template[] = [
     purpose: 'Organise a motion request to send by email where the current court procedure permits it.',
     sourceFile: 'Official_Form_14.1_Motion_by_Email.docx', estimatedMinutes: 15,
     caution: 'Email procedure, court address and response times can change. Verify them with the court before sending.',
-    sections: [{ id: 'motion', title: 'Motion details', intro: 'Describe the order requested and why it is needed now.', fields: [
-      { id: 'court', label: 'Court and court reference', help: 'Identify the case.', required: true, placeholder: 'Court and reference' },
-      { id: 'motionBy', label: 'Person making the motion', help: 'Your name and role in the case.', required: true, placeholder: 'Name and role' },
-      { id: 'orders', label: 'Order requested', help: 'State one clear order or a short list of orders.', required: true, type: 'textarea', placeholder: 'The court is asked to…' },
-      { id: 'reasons', label: 'Reasons and urgency', help: 'Give concise factual reasons and explain any urgency.', required: true, type: 'textarea', placeholder: 'This motion is needed because…' },
-      { id: 'intimation', label: 'How the motion was intimated', help: 'Say who received it and when.', required: true, type: 'textarea', placeholder: 'Intimated to… on… by…' },
-      { id: 'email', label: 'Email address for correspondence', help: 'A safe address for the court and parties.', required: true, type: 'email', placeholder: 'name@example.org' },
-    ] } ],
+    sections: [
+      { id: 'motion', title: 'Motion by email', intro: 'Complete the email fields and describe the order requested precisely.', fields: [
+        { id: 'courtEmail', label: 'Email address of the Sheriff Appeal Court', help: 'Use the current court email address, not an address copied from an old example.', required: true, type: 'email', placeholder: 'current court email address' },
+        { id: 'caseName', label: 'Case name', help: 'Use the full cause name.', required: true, placeholder: 'A.B. against C.D.' },
+        { id: 'court', label: 'Court reference number', help: 'Copy the reference exactly from the appeal paperwork.', required: true, placeholder: 'Appeal reference' },
+        { id: 'nextSevenDays', label: 'Is the case in court in the next 7 days?', help: 'Answer based on the current court timetable.', required: true, type: 'select', options: ['Yes', 'No', 'Not known — check'] },
+        { id: 'lodgingParty', label: 'Solicitor or party lodging the motion', help: 'Name and role of the person lodging it.', required: true, placeholder: 'Name and role' },
+        { id: 'reference', label: 'Solicitor or party reference', help: 'Add the file or party reference if used.', placeholder: 'Reference' },
+        { id: 'telephone', label: 'Telephone number', help: 'A number for the court or parties to use.', required: true, placeholder: 'Telephone number' },
+        { id: 'email', label: 'Email address', help: 'A safe address for correspondence.', required: true, type: 'email', placeholder: 'name@example.org' },
+        { id: 'lodgingOnBehalf', label: 'Lodging on behalf of', help: 'State the appellant, respondent or other party represented.', required: true, placeholder: 'Appellant / respondent' },
+      ] },
+      { id: 'request', title: 'Request and submissions', intro: 'Keep the motion focused on the order sought and the reason it is needed.', fields: [
+        { id: 'position', label: 'Position of motion', help: 'Say whether the motion is opposed or unopposed, if known.', required: true, type: 'select', options: ['Unopposed', 'Opposed', 'Not known — check'] },
+        { id: 'orders', label: 'Motion in brief terms', help: 'State one clear order or a short list of orders.', required: true, type: 'textarea', placeholder: 'The Court is asked to…' },
+        { id: 'submissions', label: 'Submissions in support', help: 'Add concise factual or legal submissions only where required.', type: 'textarea', placeholder: 'The motion is supported because…' },
+        { id: 'lodgingDate', label: 'Date of lodging', help: 'The date the motion will be lodged.', required: true, type: 'date' },
+        { id: 'consent', label: 'Consent position', help: 'Record whether consent has been provided.', required: true, type: 'select', options: ['Consent provided', 'Consent not provided', 'Not known — check'] },
+      ] },
+      { id: 'intimation', title: 'Intimation and documents', intro: 'Record every receiving address and deadline needed for the email procedure.', fields: [
+        { id: 'intimationTo', label: 'Intimation made to', help: 'List the party or parties receiving intimation.', required: true, placeholder: 'Names and roles' },
+        { id: 'providedEmails', label: 'Provided email addresses', help: 'List the addresses supplied for intimation.', required: true, type: 'textarea', placeholder: 'party@example.org' },
+        { id: 'additionalEmails', label: 'Additional fee-earner or case-handler addresses', help: 'Add any additional addresses where applicable.', type: 'textarea', placeholder: 'Additional addresses, or none' },
+        { id: 'intimationDate', label: 'Date intimations sent', help: 'Date the motion and documents were sent.', required: true, type: 'date' },
+        { id: 'oppositionDeadline', label: 'Last time and date for opposition', help: 'Record the deadline, including 17:00 where the current rule/form requires it.', required: true, placeholder: 'Date and time' },
+        { id: 'documents', label: 'Documents intimated and lodged', help: 'List each document sent with the motion.', type: 'textarea', placeholder: 'Document title and date' },
+      ] },
+    ],
   },
   {
     id: 'scot-14-2', jurisdiction: 'Scotland', form: 'Form 14.2', title: 'Opposition to Motion by Email',
     purpose: 'Set out an opposition or response to a motion, including the position and any alternative order.',
     sourceFile: 'Official_Form_14.2_Opposition_to_Motion.docx', estimatedMinutes: 15,
     caution: 'Check the current opposition deadline and the exact email process. Keep the original motion and proof of receipt.',
-    sections: [{ id: 'opposition', title: 'Opposition and deadline', intro: 'Respond to the motion itself. Keep each point tied to a document or fact where possible.', fields: [
-      { id: 'court', label: 'Court and court reference', help: 'Identify the case.', required: true, placeholder: 'Court and reference' },
-      { id: 'opponent', label: 'Person opposing the motion', help: 'Your name and role in the case.', required: true, placeholder: 'Name and role' },
-      { id: 'motionDate', label: 'Date of motion received', help: 'Use the date you received it.', required: true, type: 'date' },
-      { id: 'deadline', label: 'Opposition deadline', help: 'Record the deadline given by the rules or court. If unclear, contact the court promptly.', required: true, type: 'date', warning: 'Do not assume a deadline. Verify it from the current rules or court direction.' },
-      { id: 'position', label: 'Position on the motion', help: 'Say whether you oppose all, part, or none of it.', required: true, type: 'textarea', placeholder: 'I oppose / do not oppose… because…' },
-      { id: 'orders', label: 'Alternative order or request', help: 'If relevant, state what you ask the court to do instead.', type: 'textarea', placeholder: 'In the alternative…' },
+    sections: [{ id: 'opposition', title: 'Opposition to motion by email', intro: 'Respond to the motion itself. Keep each point tied to a document or fact where possible.', fields: [
+      { id: 'caseName', label: 'Case name', help: 'Use the full cause name.', required: true, placeholder: 'A.B. against C.D.' },
+      { id: 'court', label: 'Court reference number', help: 'Identify the appeal exactly.', required: true, placeholder: 'Appeal reference' },
+      { id: 'motionDate', label: 'Date motion was intimated', help: 'Use the date shown or the date you received the motion.', required: true, type: 'date' },
+      { id: 'oppositionDate', label: 'Date opposition is intimated', help: 'The date this opposition is sent.', required: true, type: 'date' },
+      { id: 'opponent', label: 'Solicitor or party opposing', help: 'Your name and role in the case.', required: true, placeholder: 'Name and role' },
+      { id: 'reference', label: 'Solicitor or party reference', help: 'Add the file or party reference if used.', placeholder: 'Reference' },
+      { id: 'telephone', label: 'Telephone number', help: 'A number for the court or parties to use.', required: true, placeholder: 'Telephone number' },
+      { id: 'email', label: 'Email address', help: 'A safe address for correspondence.', required: true, type: 'email', placeholder: 'name@example.org' },
+      { id: 'opposingOnBehalf', label: 'Opposing on behalf of', help: 'State the appellant, respondent or other party represented.', required: true, placeholder: 'Appellant / respondent' },
+      { id: 'position', label: 'Grounds of opposition', help: 'Say whether you oppose all or part of the motion and give concise grounds.', required: true, type: 'textarea', placeholder: 'I oppose the motion because…' },
+      { id: 'duration', label: 'Estimated duration of hearing', help: 'Give an estimate if a hearing is required.', placeholder: 'For example, 30 minutes' },
     ] } ],
   },
   {
@@ -99,16 +132,21 @@ const templates: Template[] = [
     sourceFile: 'Official_Form_15.1_Blank.docx', estimatedMinutes: 16,
     caution: 'The court may require a particular form or supporting documents. Check the current procedural rules.',
     sections: [{ id: 'motion', title: 'Form of motion', intro: 'Use plain, specific language. Explain the link between the facts and the order requested.', fields: [
-      { id: 'court', label: 'Court and court reference', help: 'Identify the case.', required: true, placeholder: 'Court and reference' },
-      { id: 'party', label: 'Party presenting the motion', help: 'Name and role.', required: true, placeholder: 'Name and role' },
-      { id: 'orders', label: 'Orders sought', help: 'The exact order(s) requested.', required: true, type: 'textarea', placeholder: 'The court is asked to…' },
+      { id: 'caseName', label: 'Case name and cause', help: 'Set out the pursuer/appellant and defender/respondent as they appear in the appeal.', required: true, type: 'textarea', placeholder: 'In the appeal in the cause…' },
+      { id: 'dateIntimation', label: 'Date of intimation', help: 'The date the motion is intimated.', required: true, type: 'date' },
+      { id: 'court', label: 'Court and court reference', help: 'Identify the appeal.', required: true, placeholder: 'Sheriff Appeal Court and reference' },
+      { id: 'party', label: 'Party presenting the motion', help: 'Name and role of the appellant or respondent.', required: true, placeholder: 'Name and role' },
+      { id: 'orders', label: 'Orders sought', help: 'The exact order or orders requested.', required: true, type: 'textarea', placeholder: 'The court is asked to…' },
       { id: 'legalBasis', label: 'Legal or procedural basis', help: 'Name the rule, order or authority if known. Do not guess.', type: 'textarea', placeholder: 'The motion is made under…' },
-      { id: 'facts', label: 'Supporting facts', help: 'A short chronology of relevant facts.', required: true, type: 'textarea', placeholder: 'On [date]…' },
+      { id: 'facts', label: 'Grounds for the motion', help: 'State briefly, in numbered paragraphs, the facts supporting the order.', required: true, type: 'textarea', placeholder: '1. On [date]…\n2. The order is needed because…' },
+      { id: 'oppositionDeadline', label: 'Last date for lodging opposition', help: 'Copy the deadline from the current rules or court direction.', required: true, type: 'date', warning: 'Do not calculate this from memory. Confirm the current deadline.' },
+      { id: 'documents', label: 'Documents accompanying the motion', help: 'List each document attached or lodged with the motion.', type: 'textarea', placeholder: 'Document title and date, or none' },
+      { id: 'signatory', label: 'Signatory and business address', help: 'Identify the appellant/respondent or solicitor and add the relevant business address.', required: true, type: 'textarea', placeholder: 'Name, role, signature position and business address' },
     ] } ],
   },
   {
-    id: 'ew-c100', jurisdiction: 'England & Wales', form: 'C100', title: 'Child arrangements orientation',
-    purpose: 'Prepare factual information for a child arrangements, prohibited steps or specific issue application.',
+    id: 'ew-c100', jurisdiction: 'England & Wales', form: 'C100', title: 'Child arrangements application',
+    purpose: 'Prepare factual information for a child arrangements, prohibited steps or specific issue application before completing the current official C100.',
     sourceFile: 'C100 application form reference', estimatedMinutes: 25,
     caution: 'This is not the official C100. The court requires the current official form and may require a MIAM or a valid exemption.',
     sections: [
@@ -122,10 +160,11 @@ const templates: Template[] = [
         { id: 'orderType', label: 'Main application type', help: 'Choose the closest orientation; confirm on the official form.', required: true, type: 'select', options: ['Child arrangements', 'Prohibited steps', 'Specific issue', 'More than one type'] },
         { id: 'orders', label: 'Orders sought', help: 'Describe the proposed arrangements or decision.', required: true, type: 'textarea', placeholder: 'I ask the court to order…' },
         { id: 'childNeeds', label: 'Child’s needs and welfare', help: 'Focus on observable facts, routine, stability and the child’s wishes where appropriate.', required: true, type: 'textarea', placeholder: 'The child’s needs include…' },
-        { id: 'miam', label: 'MIAM or exemption position', help: 'Record what happened or which exemption you believe may apply. Verify with the official form and a mediator or adviser.', required: true, type: 'select', options: ['MIAM attended', 'MIAM arranged', 'Exemption may apply — check', 'Not sure yet'] },
+        { id: 'miam', label: 'MIAM position', help: 'A MIAM is normally required before a C100 application unless an exemption applies. Record attendance, an appointment, or the exemption route.', required: true, type: 'select', options: ['MIAM attended — mediator confirmation available', 'MIAM appointment arranged', 'Exemption claimed — domestic abuse', 'Exemption claimed — risk of harm or child safety', 'Exemption claimed — urgency or child protection', 'Another exemption may apply — check current form', 'Not sure yet'] },
+        { id: 'miamDetails', label: 'MIAM or exemption details', help: 'State the mediator/form confirmation or the facts supporting the exemption. Common examples are domestic abuse, risk of harm, urgency, child protection, or inability to attend; confirm the current C100 guidance.', required: true, type: 'textarea', placeholder: 'MIAM date and mediator / exemption category and supporting facts…', warning: 'Do not choose an exemption only because mediation feels difficult. Check the current rules and official C100 guidance.' },
       ] },
       { id: 'safeguarding', title: 'Safety and safeguarding', intro: 'Be direct about risks. If there is immediate danger, contact emergency services or a specialist service.', fields: [
-        { id: 'safeguarding', label: 'Safeguarding concerns', help: 'Include relevant concerns about harm, abduction, coercive control or substance misuse.', required: true, type: 'textarea', placeholder: 'I am / am not aware of safeguarding concerns. The facts are…', warning: 'This draft cannot assess risk. Consider urgent legal advice and the official safeguarding questions.' },
+        { id: 'safeguarding', label: 'Safeguarding concerns', help: 'Include relevant concerns about harm, abduction, coercive control or substance misuse. Detailed allegations usually belong in C1A.', required: true, type: 'textarea', placeholder: 'I am / am not aware of safeguarding concerns. The facts are…', warning: 'This draft cannot assess risk. Consider urgent legal advice and the official safeguarding questions.' },
         { id: 'support', label: 'Support or special arrangements needed', help: 'For example, an interpreter, accessibility adjustment or separate waiting area.', type: 'textarea', placeholder: 'I may need…' },
       ] },
     ],
@@ -135,28 +174,49 @@ const templates: Template[] = [
     purpose: 'Organise allegations and safety information that may accompany a child arrangements application.',
     sourceFile: 'C1A safeguarding supplement reference', estimatedMinutes: 20,
     caution: 'Use the current C1A and follow its guidance. Do not use this tool instead of urgent advice where anyone is at risk.',
-    sections: [{ id: 'safety', title: 'Safeguarding information', intro: 'Separate what you personally saw, what someone told you, and what you are concerned may happen.', fields: [
-      { id: 'applicant', label: 'Your name and role', help: 'Identify yourself in the case.', required: true, placeholder: 'Name and relationship' },
-      { id: 'child', label: 'Child or children', help: 'Names and dates of birth.', required: true, placeholder: 'Child details' },
-      { id: 'concerns', label: 'Nature of concern', help: 'Describe the concern and its impact, with dates where possible.', required: true, type: 'textarea', placeholder: 'On or around… I saw / was told…' },
-      { id: 'risk', label: 'Current or future risk', help: 'Explain any ongoing or anticipated risk and why.', required: true, type: 'textarea', placeholder: 'I am concerned that…' },
-      { id: 'orders', label: 'Protective arrangements requested', help: 'Describe the arrangement you ask the court to consider.', type: 'textarea', placeholder: 'I ask the court to consider…' },
-      { id: 'evidence', label: 'Documents or witnesses', help: 'List what may support the account. Do not attach originals to this draft.', type: 'textarea', placeholder: 'Document / witness / date' },
-    ] } ],
+    sections: [
+      { id: 'safety', title: 'Safeguarding information', intro: 'C1A is the supplement for allegations of harm or domestic abuse that may accompany C100. Separate what you personally saw, what someone told you, and what you are concerned may happen.', fields: [
+        { id: 'applicant', label: 'Your name and role', help: 'Identify yourself in the case.', required: true, placeholder: 'Name and relationship' },
+        { id: 'child', label: 'Child or children', help: 'Names and dates of birth.', required: true, placeholder: 'Child details' },
+        { id: 'harmTypes', label: 'Types of harm or abuse', help: 'Select or describe each relevant category, such as domestic abuse, emotional harm, physical harm, sexual harm, neglect, drug or alcohol misuse, or abduction risk.', required: true, type: 'textarea', placeholder: 'Categories relevant to this application…' },
+        { id: 'concerns', label: 'Specific incidents and dates', help: 'Describe incidents factually, with approximate dates, location and who was present where known.', required: true, type: 'textarea', placeholder: 'On or around [date], at [place]…' },
+        { id: 'impact', label: 'Impact on the child or children', help: 'Explain the connection to the child’s safety or welfare, rather than only describing adult conflict.', required: true, type: 'textarea', placeholder: 'This may affect the child because…' },
+        { id: 'involvement', label: 'Police, social care or other involvement', help: 'List reports, reference numbers, social-work involvement, medical evidence or protective agencies, if any.', type: 'textarea', placeholder: 'Organisation, date, reference and outcome' },
+        { id: 'risk', label: 'Current or future risk', help: 'Explain any ongoing or anticipated risk and why.', required: true, type: 'textarea', placeholder: 'I am concerned that…' },
+      ] },
+      { id: 'protection', title: 'Protection and evidence', intro: 'Record existing safeguards and the material that may support your account. Keep originals securely and follow the official form’s instructions.', fields: [
+        { id: 'orders', label: 'Protective arrangements requested', help: 'Describe the arrangement you ask the court to consider.', type: 'textarea', placeholder: 'I ask the court to consider…' },
+        { id: 'existingSteps', label: 'Steps already taken', help: 'List any non-molestation order, injunction, supervised contact, safety plan or other protective step and its current status.', type: 'textarea', placeholder: 'Order or step, date and status' },
+        { id: 'evidence', label: 'Documents or witnesses', help: 'List what may support the account. Do not attach originals to this draft.', type: 'textarea', placeholder: 'Document / witness / date / reference' },
+        { id: 'specialMeasures', label: 'Safety or participation arrangements', help: 'Note any request for separate waiting, screens, remote attendance, an interpreter or other safety/access arrangement.', type: 'textarea', placeholder: 'I may need…' },
+      ] },
+    ],
   },
   {
-    id: 'echr-readiness', jurisdiction: 'European Court of Human Rights', form: 'Rule 47 readiness', title: 'European Court readiness checklist',
-    purpose: 'Check whether you have the core information before completing the official Rule 47 application form.',
-    sourceFile: 'ECHR Rule 47 public guidance', estimatedMinutes: 20,
-    caution: 'The official ECHR application form is required. Domestic remedies generally must be exhausted and the four-month deadline is strict.',
-    sections: [{ id: 'readiness', title: 'Final decision and remedies', intro: 'This view is a readiness checklist only. It does not assess admissibility and cannot extend a deadline.', fields: [
+    id: 'echr-readiness', jurisdiction: 'European Court of Human Rights', form: 'Article 34 / Rule 47', title: 'ECtHR application readiness',
+    purpose: 'Organise the information for an Article 34 application before completing and sending the Court’s own official Rule 47 form.',
+    sourceFile: 'ECHR Rule 47 public guidance', estimatedMinutes: 25,
+    caution: 'Only the Court’s own official application form, completed and sent in accordance with Rule 47, stops the clock. Letters, emails or this checklist do not. Domestic remedies generally must be exhausted and the four-month deadline from the final domestic decision is strict.',
+    sections: [
+      { id: 'deadline', title: 'The four-month clock', intro: 'The application normally must reach the Court within four months of the final domestic decision. Confirm the current calculation immediately; this checklist cannot extend time.', fields: [
+        { id: 'finalDecision', label: 'Final domestic decision date', help: 'The date of the final decision in the domestic process, not an earlier decision you disagree with.', required: true, type: 'date', warning: 'The four-month time limit is strict and not extended by sending a letter or incomplete application.' },
+        { id: 'deadline', label: 'Four-month deadline calculated', help: 'Record the date you calculate and where you checked the current Court guidance.', required: true, type: 'date', warning: 'Check the calculation against the current official ECtHR guidance or obtain urgent legal advice.' },
+        { id: 'officialFormPlan', label: 'Official form submission plan', help: 'Record when and how you will complete and send the Court’s own current Rule 47 application form.', required: true, type: 'textarea', placeholder: 'I will complete the Court’s official form and send it by…' },
+      ] },
+      { id: 'readiness', title: 'Article 34 applicant and remedies', intro: 'This is a readiness checklist only. It does not assess admissibility or decide whether a remedy was effective.', fields: [
       { id: 'applicant', label: 'Applicant name', help: 'Name of the person or organisation bringing the application.', required: true, placeholder: 'Full name' },
       { id: 'respondent', label: 'Respondent State', help: 'Usually the State you say is responsible.', required: true, placeholder: 'United Kingdom' },
-      { id: 'complaint', label: 'Convention rights relied on', help: 'For example Articles 6, 8, 13 or 3. Explain the facts separately in the official form.', required: true, type: 'textarea', placeholder: 'Article… because…' },
-      { id: 'finalDecision', label: 'Final domestic decision date', help: 'The date of the final decision in the domestic process.', required: true, type: 'date', warning: 'The four-month time limit is strict. Confirm the current rule and calculation immediately.' },
-      { id: 'remedies', label: 'Domestic remedies used', help: 'List the courts, appeals and remedies you used, and explain any remedy not used.', required: true, type: 'textarea', placeholder: 'Court / appeal / date / outcome…' },
-      { id: 'deadline', label: 'Four-month deadline checked', help: 'Record how you calculated the deadline and where you checked it.', required: true, type: 'textarea', placeholder: 'I checked… on…' },
-    ] } ],
+      { id: 'victimStatus', label: 'Victim status and Article 34 position', help: 'Explain briefly how you say you are personally and directly affected, or why you are authorised to apply.', required: true, type: 'textarea', placeholder: 'I am personally and directly affected because…' },
+      { id: 'complaint', label: 'Convention rights relied on and facts', help: 'State the Article(s) and a concise chronological account. Explain which decision or act is complained of.', required: true, type: 'textarea', placeholder: 'Article… The relevant facts are…' },
+      { id: 'remedies', label: 'Domestic remedies exhausted', help: 'List each court, appeal, review or other effective remedy used, with dates and outcomes. If a remedy was not used, explain why and seek advice.', required: true, type: 'textarea', placeholder: 'Court / appeal / date / outcome…' },
+      { id: 'exhaustion', label: 'Exhaustion check', help: 'Record why you believe effective domestic remedies have been exhausted. This app cannot decide whether an exception applies.', required: true, type: 'textarea', placeholder: 'The final effective domestic remedy was…' },
+      { id: 'relief', label: 'What you ask the Court to do', help: 'Summarise the finding or just satisfaction you seek; the official form controls the final wording.', type: 'textarea', placeholder: 'I ask the Court to…' },
+    ] },
+      { id: 'documents', title: 'Documents for the official application', intro: 'The Court expects copies of relevant domestic decisions and supporting documents in the order required by its current instructions.', fields: [
+        { id: 'documents', label: 'Documents available', help: 'List the domestic decisions, orders, judgments and other documents you will copy and label.', required: true, type: 'textarea', placeholder: '1. Decision dated…\n2. Appeal outcome dated…' },
+        { id: 'formWarning', label: 'Why this checklist cannot stop the clock', help: 'Acknowledge that only the Court’s own official application form, completed and sent under Rule 47, can start the application process and stop the four-month deadline; a letter, email or CourtPath draft cannot.', required: true, type: 'select', options: ['I understand — I will use the Court’s official form', 'I need urgent advice before proceeding'] },
+      ] },
+    ],
   },
 ];
 
@@ -252,9 +312,13 @@ function Library() {
   return <Shell><div className="mx-auto max-w-7xl px-5 pt-12 lg:px-8 lg:pt-18"><div className="max-w-3xl"><p className="text-xs font-bold uppercase tracking-[.18em] text-primary">Reference shelf</p><h1 className="mt-3 font-display text-5xl tracking-tight md:text-6xl">The document library, without the fog.</h1><p className="mt-5 text-lg leading-8 text-muted-foreground">Browse the supplied references by jurisdiction and understand what each one is for before you start.</p></div>
     <div className="mt-9 flex flex-wrap gap-2">{(['All', 'Scotland', 'England & Wales', 'European Court of Human Rights'] as const).map(item => <button key={item} onClick={() => setFilter(item)} className={`rounded-full border px-4 py-2 text-sm font-bold ${filter === item ? 'border-primary bg-primary text-primary-foreground' : 'border-border bg-card hover:border-primary/50'}`} data-testid={`button-library-filter-${item}`}>{item}</button>)}</div>
     <div className="mt-8 divide-y divide-border rounded-2xl border border-border bg-card">{list.map(template => <div key={template.id} className="grid gap-4 p-5 md:grid-cols-[1fr_1.2fr_auto] md:items-center md:p-7" data-testid={`row-library-${template.id}`}><div><div className="flex items-center gap-2 text-xs font-bold uppercase tracking-[.14em] text-primary">{iconForJurisdiction(template.jurisdiction)} {template.form}</div><h2 className="mt-2 font-display text-2xl">{template.title}</h2><p className="mt-1 text-sm text-muted-foreground">{template.jurisdiction}</p></div><div className="text-sm leading-6 text-muted-foreground"><p><strong className="text-foreground">For:</strong> {template.purpose}</p><p className="mt-2"><strong className="text-foreground">Not for:</strong> replacing the official form, current procedural rules or individual legal advice.</p></div><Link href={`/prepare/${template.id}`} className="inline-flex items-center justify-center gap-2 rounded-xl border border-primary/30 px-4 py-2.5 text-sm font-bold text-primary hover:bg-primary/8" data-testid={`link-library-prepare-${template.id}`}>Open guide <ChevronRight size={16} /></Link></div>)}</div>
-    <section className="mt-8 grid gap-4 md:grid-cols-3">
-      {[['C2', 'Case management or other request', 'A pointer only. Check the current C2 and the specific order or direction you need.'], ['N161', 'Appeal notice in England & Wales', 'A pointer only. Confirm the correct appeal route, permission position and time limit.'], ['FM1', 'Family mediation information', 'A pointer only. Check the current MIAM and mediation guidance; it is not a substitute for C100 or C1A.']].map(([form, title, copy]) => <div key={form} className="rounded-2xl border border-border bg-muted/50 p-5" data-testid={`card-related-${form}`}><p className="text-xs font-bold uppercase tracking-[.14em] text-primary">{form}</p><h2 className="mt-2 font-display text-xl">{title}</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">{copy}</p></div>)}
-    </section>
+     <section className="mt-8">
+       <div className="mb-4"><p className="text-xs font-bold uppercase tracking-[.16em] text-primary">Related references</p><h2 className="mt-2 font-display text-3xl">Useful forms that are not full drafting flows yet.</h2><p className="mt-2 max-w-3xl text-sm leading-6 text-muted-foreground">These short notes help you identify the next official form without pretending to replace it.</p></div>
+       <div className="grid gap-4 md:grid-cols-3">
+         {[['C2', 'In-proceedings application', 'England & Wales form used to ask for permission or a specific order within existing proceedings, such as an interim order or permission to instruct an expert. Check the current C2 and the order or direction you need.'], ['N161', 'Appellant’s notice', 'England & Wales appeal notice used to appeal a Family Court decision to a higher court. Confirm the correct appeal route, permission position and strict time limit before relying on it.'], ['FM1', 'Mediator confirmation', 'A mediator-completed confirmation of attendance at or exemption from a MIAM. It may accompany C100 where relevant; it is not a substitute for C100 or C1A.']].map(([form, title, copy]) => <div key={form} className="rounded-2xl border border-border bg-muted/50 p-5" data-testid={`card-related-${form}`}><p className="text-xs font-bold uppercase tracking-[.14em] text-primary">{form}</p><h2 className="mt-2 font-display text-xl">{title}</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">{copy}</p></div>)}
+       </div>
+       <div className="mt-4 rounded-2xl border border-accent/35 bg-accent/10 p-5 text-sm leading-6" data-testid="note-northern-ireland-forms"><p className="font-bold text-foreground">Northern Ireland is separate.</p><p className="mt-1 text-muted-foreground">Northern Ireland has its own family and civil court form set and procedure. It is not covered by these Scotland or England & Wales guides. Add it as a separate jurisdiction if CourtPath is expanded to cover all four UK jurisdictions.</p></div>
+     </section>
     <div className="mt-6"><Disclaimer compact /></div>
   </div></Shell>;
 }
