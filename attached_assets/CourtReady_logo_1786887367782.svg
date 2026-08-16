@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="640" height="200" viewBox="0 0 640 200">
+  <defs>
+    <linearGradient id="mark" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#1B4B66"/>
+      <stop offset="100%" stop-color="#2C7A7B"/>
+    </linearGradient>
+  </defs>
+
+  
+  <g transform="translate(20,20)">
+    <rect x="0" y="0" width="120" height="160" rx="14" fill="url(#mark)"/>
+    
+    <path d="M84 0 L120 36 L84 36 Z" fill="#0F3245" opacity="0.5"/>
+    
+    <rect x="20" y="52" width="80" height="8" rx="4" fill="#FFFFFF" opacity="0.85"/>
+    <rect x="20" y="72" width="80" height="8" rx="4" fill="#FFFFFF" opacity="0.85"/>
+    <rect x="20" y="92" width="52" height="8" rx="4" fill="#FFFFFF" opacity="0.85"/>
+    
+    <circle cx="90" cy="118" r="28" fill="#F2A93B"/>
+    <path d="M76 118 L86 128 L106 104" stroke="#FFFFFF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  </g>
+
+  
+  <text x="165" y="98" font-family="Georgia, 'Times New Roman', serif" font-size="52" fill="#1B2B34" font-weight="600">Court</text>
+  <text x="340" y="98" font-family="Georgia, 'Times New Roman', serif" font-size="52" fill="#2C7A7B" font-weight="600">Ready</text>
+  <text x="167" y="130" font-family="Helvetica, Arial, sans-serif" font-size="19" fill="#5B6B73" letter-spacing="0.5">Know your rights. Build your case, clearly.</text>
+</svg>
