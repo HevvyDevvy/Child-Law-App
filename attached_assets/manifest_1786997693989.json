@@ -1,39 +1,24 @@
 {
-  "background_color": "#cfcd64",
-  "description": "CourtPath UK — a prototype to a bigger build court ready which will include N.I. papers, a full set of human, civil, parental and children's rights and confirmed formatting. Print and print view edit work in combination.",
-  "dir": "ltr",
-  "display": "standalone",
-  "name": "CourtPath UK",
-  "orientation": "any",
-  "scope": "/",
-  "short_name": "CourtPath UK",
+  "id": "courtready",
+  "name": "CourtReady",
+  "short_name": "CourtReady",
+  "description": "CourtReady helps people organise rights, facts, dates and documents for UK civil and family court procedures. General information only, not legal advice.",
   "start_url": "/",
-  "theme_color": "#ffffff",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "any",
+  "dir": "ltr",
+  "background_color": "#F5F0E6",
+  "theme_color": "#2C7A7B",
   "icons": [
-    {
-      "src": "https://child-law-navigator--blucorbel.replit.app/favicon.svg",
-      "type": "image/svg+xml",
-      "isSquare": false,
-      "isPng": false,
-      "isWebp": false,
-      "isJpg": false,
-      "width": 0,
-      "is512x512": false,
-      "is256x256": false,
-      "is192x192": false
-    },
-    {
-      "src": "https://child-law-navigator--blucorbel.replit.app/favicon.ico",
-      "type": "image/x-icon",
-      "isSquare": false,
-      "isPng": false,
-      "isWebp": false,
-      "isJpg": false,
-      "width": 0,
-      "is512x512": false,
-      "is256x256": false,
-      "is192x192": false
-    }
+    { "src": "/icons/icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
+    { "src": "/icons/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" },
+    { "src": "/icons/icon-512-maskable.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
   ],
-  "id": "Court ready prototype."
+  "screenshots": [
+    { "src": "/screenshots/screenshot-1-home.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" },
+    { "src": "/screenshots/screenshot-2-rights.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" },
+    { "src": "/screenshots/screenshot-3-intro.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" },
+    { "src": "/screenshots/screenshot-4-draft.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" }
+  ]
 }
