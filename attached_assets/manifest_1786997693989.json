@@ -1,0 +1,39 @@
+{
+  "background_color": "#cfcd64",
+  "description": "CourtPath UK — a prototype to a bigger build court ready which will include N.I. papers, a full set of human, civil, parental and children's rights and confirmed formatting. Print and print view edit work in combination.",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "CourtPath UK",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "CourtPath UK",
+  "start_url": "/",
+  "theme_color": "#ffffff",
+  "icons": [
+    {
+      "src": "https://child-law-navigator--blucorbel.replit.app/favicon.svg",
+      "type": "image/svg+xml",
+      "isSquare": false,
+      "isPng": false,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    },
+    {
+      "src": "https://child-law-navigator--blucorbel.replit.app/favicon.ico",
+      "type": "image/x-icon",
+      "isSquare": false,
+      "isPng": false,
+      "isWebp": false,
+      "isJpg": false,
+      "width": 0,
+      "is512x512": false,
+      "is256x256": false,
+      "is192x192": false
+    }
+  ],
+  "id": "Court ready prototype."
+}

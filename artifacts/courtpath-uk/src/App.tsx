@@ -5,10 +5,13 @@ import { Toaster } from '@/components/ui/toaster';
 import { TooltipProvider } from '@/components/ui/tooltip';
 import {
   ArrowLeft, ArrowRight, BookOpen, Check, CheckCircle2, ChevronRight,
-  CircleHelp, Clock3, Download, FileCheck2, FileText, Gavel, Info,
-  Landmark, Menu, Printer, Scale, ShieldCheck, Sparkles, Upload, X,
+  CircleHelp, Clock3, Download, ExternalLink, FileCheck2, FileText, Gavel,
+  Info, Landmark, Menu, Printer, Scale, ShieldCheck, Sparkles, Upload, X,
 } from 'lucide-react';
+import { Document, HeadingLevel, Packer, Paragraph, TextRun } from 'docx';
 import { Link, Route, Switch, Router as WouterRouter, useLocation, useParams } from 'wouter';
+import rightsIndex from './data/rights-index';
+import courtReadyLogo from '@assets/icon-512_1786997694135.svg';
 
 type Field = {
   id: string; label: string; help: string; required?: boolean;
@@ -214,7 +217,7 @@ const templates: Template[] = [
     ] },
       { id: 'documents', title: 'Documents for the official application', intro: 'The Court expects copies of relevant domestic decisions and supporting documents in the order required by its current instructions.', fields: [
         { id: 'documents', label: 'Documents available', help: 'List the domestic decisions, orders, judgments and other documents you will copy and label.', required: true, type: 'textarea', placeholder: '1. Decision dated…\n2. Appeal outcome dated…' },
-        { id: 'formWarning', label: 'Why this checklist cannot stop the clock', help: 'Acknowledge that only the Court’s own official application form, completed and sent under Rule 47, can start the application process and stop the four-month deadline; a letter, email or CourtPath draft cannot.', required: true, type: 'select', options: ['I understand — I will use the Court’s official form', 'I need urgent advice before proceeding'] },
+        { id: 'formWarning', label: 'Why this checklist cannot stop the clock', help: 'Acknowledge that only the Court’s own official application form, completed and sent under Rule 47, can start the application process and stop the four-month deadline; a letter, email or CourtReady draft cannot.', required: true, type: 'select', options: ['I understand — I will use the Court’s official form', 'I need urgent advice before proceeding'] },
       ] },
     ],
   },
@@ -239,9 +242,8 @@ function Shell({ children }: { children: ReactNode }) {
   return <div className="min-h-[100dvh] bg-background">
     <header className="no-print sticky top-0 z-30 border-b border-border/80 bg-[hsl(var(--background)/.94)] backdrop-blur">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4 lg:px-8">
-        <Link href="/" className="flex items-center gap-3 no-underline" data-testid="link-brand">
-          <span className="grid size-10 place-items-center rounded-2xl bg-primary text-primary-foreground shadow-sm"><Scale size={21} /></span>
-          <span><span className="block font-display text-xl leading-none font-semibold tracking-tight">CourtPath</span><span className="mt-1 block text-[10px] font-bold uppercase tracking-[.22em] text-muted-foreground">UK court companion</span></span>
+        <Link href="/" className="flex items-center no-underline" data-testid="link-brand">
+          <img src={courtReadyLogo} alt="CourtReady — Know your rights. Build your case, clearly." className="h-11 w-auto max-w-[188px] object-contain object-left" />
         </Link>
         <button className="rounded-lg p-2 md:hidden" onClick={() => setMenuOpen(v => !v)} aria-label="Open navigation" data-testid="button-open-menu"><Menu size={22} /></button>
         <nav className={`${menuOpen ? 'flex' : 'hidden'} absolute left-0 right-0 top-full flex-col gap-1 border-b border-border bg-background px-5 py-4 md:static md:flex md:flex-row md:border-0 md:bg-transparent md:p-0`} aria-label="Main navigation">
@@ -252,9 +254,9 @@ function Shell({ children }: { children: ReactNode }) {
       </div>
     </header>
     <main>{children}</main>
-    <footer className="no-print mt-20 border-t border-border bg-secondary/45">
+     <footer className="no-print mt-20 border-t border-border bg-secondary/45">
       <div className="mx-auto flex max-w-7xl flex-col gap-5 px-5 py-9 text-sm text-muted-foreground md:flex-row md:items-center md:justify-between lg:px-8">
-        <div><p className="font-display text-xl font-semibold text-foreground">A clearer next step.</p><p className="mt-1">Made for careful preparation, not legal certainty.</p></div>
+         <div><p className="font-display text-xl font-semibold text-foreground">Know your rights. Build your case, clearly.</p><p className="mt-1">Made for careful preparation, not legal certainty.</p></div>
         <div className="flex flex-wrap gap-x-6 gap-y-2"><Link href="/rights" className="hover:text-foreground" data-testid="link-footer-rights">Rights & support</Link><Link href="/library" className="hover:text-foreground" data-testid="link-footer-library">Reference library</Link><span>Information only · check current rules</span></div>
       </div>
     </footer>
@@ -264,7 +266,7 @@ function Shell({ children }: { children: ReactNode }) {
 function Disclaimer({ compact = false }: { compact?: boolean }) {
   return <div className={`flex gap-3 rounded-2xl border border-accent/35 bg-accent/10 ${compact ? 'p-3 text-xs' : 'p-4 text-sm'} text-foreground`} role="note" data-testid="notice-disclaimer">
     <Info className="mt-0.5 shrink-0 text-accent" size={compact ? 17 : 20} />
-    <p><strong>General information only.</strong> CourtPath creates an editable draft, not legal advice or an official court form. Check it against the current official form and rules. Where possible, ask a solicitor, law centre, Citizens Advice or legal clinic to review it. A draft is never a guarantee that a court will accept or approve a submission.</p>
+    <p><strong>General information only.</strong> CourtReady creates an editable draft, not legal advice or an official court form. Check it against the current official form and rules. Where possible, ask a solicitor, law centre, Citizens Advice or legal clinic to review it. A draft is never a guarantee that a court will accept or approve a submission.</p>
   </div>;
 }
 
@@ -276,7 +278,7 @@ function Home() {
     <section className="grid items-end gap-10 lg:grid-cols-[1.1fr_.9fr]">
       <div className="fade-up"><div className="mb-6 inline-flex items-center gap-2 rounded-full border border-primary/25 bg-primary/8 px-3 py-1.5 text-xs font-bold uppercase tracking-[.18em] text-primary"><Sparkles size={14} /> Steady help for a difficult process</div>
         <h1 className="max-w-3xl font-display text-5xl leading-[.94] tracking-[-.035em] text-foreground md:text-7xl">Turn a tangled story into a <span className="text-primary">careful first draft.</span></h1>
-        <p className="mt-7 max-w-xl text-lg leading-8 text-muted-foreground">CourtPath helps you organise facts, dates and questions for UK civil and family court procedures, especially cases involving children.</p>
+        <p className="mt-7 max-w-xl text-lg leading-8 text-muted-foreground">CourtReady helps you organise facts, dates and questions for UK civil and family court procedures, especially cases involving children.</p>
         <div className="mt-8 flex flex-wrap gap-3"><a href="#choose" className="rounded-xl bg-primary px-5 py-3.5 text-sm font-bold text-primary-foreground shadow-sm hover:-translate-y-0.5" data-testid="link-choose-document">Choose a document <ArrowRight className="ml-2 inline" size={17} /></a><Link href="/rights" className="rounded-xl border border-border bg-card px-5 py-3.5 text-sm font-bold hover:-translate-y-0.5" data-testid="link-learn-rights">Understand your rights</Link></div>
       </div>
       <div className="relative overflow-hidden rounded-[2rem] bg-sidebar p-7 text-sidebar-foreground shadow-xl lg:p-9 fade-up delay-2">
@@ -317,7 +319,7 @@ function Library() {
        <div className="grid gap-4 md:grid-cols-3">
          {[['C2', 'In-proceedings application', 'England & Wales form used to ask for permission or a specific order within existing proceedings, such as an interim order or permission to instruct an expert. Check the current C2 and the order or direction you need.'], ['N161', 'Appellant’s notice', 'England & Wales appeal notice used to appeal a Family Court decision to a higher court. Confirm the correct appeal route, permission position and strict time limit before relying on it.'], ['FM1', 'Mediator confirmation', 'A mediator-completed confirmation of attendance at or exemption from a MIAM. It may accompany C100 where relevant; it is not a substitute for C100 or C1A.']].map(([form, title, copy]) => <div key={form} className="rounded-2xl border border-border bg-muted/50 p-5" data-testid={`card-related-${form}`}><p className="text-xs font-bold uppercase tracking-[.14em] text-primary">{form}</p><h2 className="mt-2 font-display text-xl">{title}</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">{copy}</p></div>)}
        </div>
-       <div className="mt-4 rounded-2xl border border-accent/35 bg-accent/10 p-5 text-sm leading-6" data-testid="note-northern-ireland-forms"><p className="font-bold text-foreground">Northern Ireland is separate.</p><p className="mt-1 text-muted-foreground">Northern Ireland has its own family and civil court form set and procedure. It is not covered by these Scotland or England & Wales guides. Add it as a separate jurisdiction if CourtPath is expanded to cover all four UK jurisdictions.</p></div>
+        <div className="mt-4 rounded-2xl border border-accent/35 bg-accent/10 p-5 text-sm leading-6" data-testid="note-northern-ireland-forms"><p className="font-bold text-foreground">Northern Ireland is separate.</p><p className="mt-1 text-muted-foreground">Northern Ireland has its own family and civil court form set and procedure. It is not covered by these Scotland or England & Wales guides. Add it as a separate jurisdiction if CourtReady is expanded to cover all four UK jurisdictions.</p></div>
      </section>
     <div className="mt-6"><Disclaimer compact /></div>
   </div></Shell>;
@@ -327,6 +329,20 @@ function Rights() {
   return <Shell><div className="mx-auto max-w-7xl px-5 pt-12 lg:px-8 lg:pt-18"><div className="grid gap-10 lg:grid-cols-[1fr_360px]"><div><p className="text-xs font-bold uppercase tracking-[.18em] text-primary">Know your position</p><h1 className="mt-3 max-w-3xl font-display text-5xl leading-tight tracking-tight md:text-6xl">Rights in plain English, with room for questions.</h1><p className="mt-5 max-w-2xl text-lg leading-8 text-muted-foreground">A calm orientation based on the supplied Know Your Rights material. It is a starting point for conversations with an adviser, not a legal opinion.</p></div><div className="rounded-2xl bg-sidebar p-6 text-sidebar-foreground"><ShieldCheck className="text-sidebar-primary" size={27} /><h2 className="mt-8 font-display text-2xl">A useful first question</h2><p className="mt-3 text-sm leading-6 text-sidebar-foreground/70">What decision is being made, what information is it based on, and what chance do you have to respond?</p><Link href="/library" className="mt-6 inline-flex items-center gap-2 text-sm font-bold text-sidebar-primary" data-testid="link-rights-library">Find a preparation guide <ArrowRight size={16} /></Link></div></div>
     <Disclaimer />
     <div className="mt-12 grid gap-4 md:grid-cols-2">{rights.map(([label, title, body]) => <article key={label} className="rounded-2xl border border-border bg-card p-6 paper-shadow" data-testid={`card-right-${label}`}><div className="flex items-start justify-between gap-4"><div><p className="text-xs font-bold uppercase tracking-[.14em] text-primary">{label}</p><h2 className="mt-2 font-display text-2xl">{title}</h2></div><BookOpen className="shrink-0 text-accent" size={20} /></div><p className="mt-4 text-sm leading-7 text-muted-foreground">{body}</p></article>)}</div>
+     <section className="mt-12 rounded-2xl border border-border bg-card p-6 paper-shadow md:p-8" data-testid="section-rights-index">
+       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-primary">Full list with source links</p><h2 className="mt-2 font-display text-3xl">Every indexed right, grouped by instrument.</h2><p className="mt-2 max-w-2xl text-sm leading-6 text-muted-foreground">Open the official Convention or UNCRC text in a new tab. The list is a reference index, not a statement that every right applies to every case.</p></div><ExternalLink className="hidden text-accent md:block" size={23} /></div>
+       <div className="mt-6 grid gap-4 lg:grid-cols-2">
+         {(['ECHR', 'UNCRC'] as const).map(instrument => {
+           const items = rightsIndex.filter(item => item.instrument === instrument);
+           return <details key={instrument} open className="group rounded-2xl border border-border bg-muted/35" data-testid={`details-rights-${instrument.toLowerCase()}`}>
+             <summary className="flex cursor-pointer list-none items-center justify-between gap-3 p-5 font-display text-2xl marker:hidden"><span>{instrument === 'ECHR' ? 'European Convention on Human Rights' : 'UN Convention on the Rights of the Child'}</span><ChevronRight className="shrink-0 text-primary transition-transform group-open:rotate-90" size={20} /></summary>
+             <div className="border-t border-border px-5 pb-5 pt-3">
+               <div className="divide-y divide-border/80">{items.map(item => <a key={`${item.instrument}-${item.article}`} href={item.link} target="_blank" rel="noopener noreferrer" className="group/item flex items-start justify-between gap-4 py-3 text-sm no-underline hover:text-primary" data-testid={`link-right-${item.instrument}-${item.article.replaceAll(' ', '-').replaceAll(',', '')}`}><span><span className="font-bold">{item.article}</span><span className="ml-2 text-muted-foreground group-hover/item:text-primary/80">{item.right}</span></span><ExternalLink className="mt-0.5 shrink-0 text-primary/60" size={15} /></a>)}</div>
+             </div>
+           </details>;
+         })}
+       </div>
+     </section>
     <section className="mt-12 rounded-2xl border border-primary/20 bg-primary/7 p-6 md:p-8"><h2 className="font-display text-3xl">Places to ask for help</h2><div className="mt-5 grid gap-5 text-sm leading-6 text-muted-foreground md:grid-cols-3"><div><strong className="text-foreground">Urgent safety</strong><p className="mt-1">Call emergency services if there is immediate danger. Specialist domestic abuse and child safety services can help you plan safely.</p></div><div><strong className="text-foreground">Legal support</strong><p className="mt-1">Ask about a solicitor, law centre, Citizens Advice, Civil Legal Advice, legal aid and local legal clinics.</p></div><div><strong className="text-foreground">Access needs</strong><p className="mt-1">Tell the court early about interpretation, disability adjustments, privacy or communication needs.</p></div></div></section>
   </div></Shell>;
 }
@@ -337,6 +353,72 @@ function makeBlankDraft(template: Template): Draft {
   return { templateId: template.id, caseName: '', courtReference: '', applicant: '', respondent: '', child: '', dates: '', fieldValues: values, attachments: {}, lastSavedAt: '' };
 }
 
+const DRAFT_DB_NAME = 'courtready-local';
+const DRAFT_STORE_NAME = 'drafts';
+
+function openDraftDatabase(): Promise<IDBDatabase> {
+  return new Promise((resolve, reject) => {
+    if (!('indexedDB' in window)) {
+      reject(new Error('IndexedDB is unavailable'));
+      return;
+    }
+    const request = window.indexedDB.open(DRAFT_DB_NAME, 1);
+    request.onupgradeneeded = () => request.result.createObjectStore(DRAFT_STORE_NAME);
+    request.onsuccess = () => resolve(request.result);
+    request.onerror = () => reject(request.error ?? new Error('Could not open local draft storage'));
+  });
+}
+
+async function readLocalDraft(storageKey: string, template: Template): Promise<Draft> {
+  try {
+    const database = await openDraftDatabase();
+    const saved = await new Promise<Draft | undefined>((resolve, reject) => {
+      const request = database.transaction(DRAFT_STORE_NAME, 'readonly').objectStore(DRAFT_STORE_NAME).get(storageKey);
+      request.onsuccess = () => resolve(request.result as Draft | undefined);
+      request.onerror = () => reject(request.error);
+    });
+    database.close();
+    if (saved) return saved;
+  } catch {
+    // Fall back for older browsers or private browsing modes.
+  }
+  try {
+    const legacy = localStorage.getItem(storageKey) ?? localStorage.getItem(storageKey.replace('courtready-', 'courtpath-'));
+    return legacy ? JSON.parse(legacy) as Draft : makeBlankDraft(template);
+  } catch {
+    return makeBlankDraft(template);
+  }
+}
+
+async function writeLocalDraft(storageKey: string, draft: Draft) {
+  try {
+    const database = await openDraftDatabase();
+    await new Promise<void>((resolve, reject) => {
+      const request = database.transaction(DRAFT_STORE_NAME, 'readwrite').objectStore(DRAFT_STORE_NAME).put(draft, storageKey);
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+    });
+    database.close();
+  } catch {
+    localStorage.setItem(storageKey, JSON.stringify(draft));
+  }
+}
+
+async function deleteLocalDraft(storageKey: string) {
+  try {
+    const database = await openDraftDatabase();
+    await new Promise<void>((resolve, reject) => {
+      const request = database.transaction(DRAFT_STORE_NAME, 'readwrite').objectStore(DRAFT_STORE_NAME).delete(storageKey);
+      request.onsuccess = () => resolve();
+      request.onerror = () => reject(request.error);
+    });
+    database.close();
+  } catch {
+    localStorage.removeItem(storageKey);
+  }
+  localStorage.removeItem(storageKey.replace('courtready-', 'courtpath-'));
+}
+
 function Prepare() {
   const params = useParams<{ templateId: string }>();
   const template = templates.find(item => item.id === params.templateId);
@@ -345,24 +427,71 @@ function Prepare() {
 }
 
 function PrepareWorkspace({ template }: { template: Template }) {
-  const storageKey = `courtpath-draft-${template.id}`;
-  const [draft, setDraft] = useState<Draft>(() => {
-    try { const saved = localStorage.getItem(storageKey); return saved ? JSON.parse(saved) as Draft : makeBlankDraft(template); } catch { return makeBlankDraft(template); }
-  });
+  const storageKey = `courtready-draft-${template.id}`;
+  const [draft, setDraft] = useState<Draft>(() => makeBlankDraft(template));
+  const [storageReady, setStorageReady] = useState(false);
   const [step, setStep] = useState(0);
   const [savedNotice, setSavedNotice] = useState(false);
   const [showPreview, setShowPreview] = useState(false);
-  const allSteps = [...template.sections.map(section => ({ kind: 'section' as const, ...section })), { kind: 'evidence' as const, id: 'evidence', title: 'Evidence & attachments', intro: 'Use this checklist to gather supporting material. Uploads are not stored by CourtPath; keep files securely yourself.', fields: [] }, { kind: 'review' as const, id: 'review', title: 'Before you share', intro: 'Read the draft as a whole. Confirm dates, names and the official source before printing.', fields: [] }];
+  const allSteps = [...template.sections.map(section => ({ kind: 'section' as const, ...section })), { kind: 'evidence' as const, id: 'evidence', title: 'Evidence & attachments', intro: 'Use this checklist to gather supporting material. Uploads are not stored by CourtReady; keep files securely yourself.', fields: [] }, { kind: 'review' as const, id: 'review', title: 'Before you share', intro: 'Read the draft as a whole. Confirm dates, names and the official source before printing.', fields: [] }];
   const current = allSteps[step];
   const requiredFields = template.sections.flatMap(section => section.fields.filter(field => field.required));
   const missing = requiredFields.filter(field => !draft.fieldValues[field.id]?.trim());
   const progress = Math.round((step / (allSteps.length - 1)) * 100);
-  useEffect(() => { const timer = window.setTimeout(() => { const next = { ...draft, lastSavedAt: new Date().toISOString() }; localStorage.setItem(storageKey, JSON.stringify(next)); setDraft(next); setSavedNotice(true); window.setTimeout(() => setSavedNotice(false), 1600); }, 500); return () => window.clearTimeout(timer); }, [draft.fieldValues, draft.attachments, storageKey]);
+  useEffect(() => {
+    let active = true;
+    void readLocalDraft(storageKey, template).then(saved => {
+      if (active) {
+        setDraft(saved);
+        setStorageReady(true);
+      }
+    });
+    return () => { active = false; };
+  }, [storageKey, template]);
+  useEffect(() => {
+    if (!storageReady) return;
+    const timer = window.setTimeout(() => {
+      const next = { ...draft, lastSavedAt: new Date().toISOString() };
+      void writeLocalDraft(storageKey, next);
+      setSavedNotice(true);
+      window.setTimeout(() => setSavedNotice(false), 1600);
+    }, 500);
+    return () => window.clearTimeout(timer);
+  }, [draft.fieldValues, draft.attachments, storageKey, storageReady]);
   const updateField = (id: string, value: string) => setDraft(prev => ({ ...prev, fieldValues: { ...prev.fieldValues, [id]: value } }));
   const toggleAttachment = (id: string) => setDraft(prev => ({ ...prev, attachments: { ...prev.attachments, [id]: !prev.attachments[id] } }));
-  const resetDraft = () => { if (window.confirm('Clear this draft from this browser?')) { const blank = makeBlankDraft(template); setDraft(blank); localStorage.removeItem(storageKey); setStep(0); } };
+  const resetDraft = () => { if (window.confirm('Clear this draft from this browser?')) { const blank = makeBlankDraft(template); setDraft(blank); void deleteLocalDraft(storageKey); setStep(0); } };
   const draftText = useMemo(() => buildDraftText(template, draft), [template, draft]);
-  const download = (format: 'txt' | 'html') => { const content = format === 'txt' ? draftText : `<html><head><meta charset="utf-8"><title>${template.form} draft</title><style>body{font-family:Arial,sans-serif;max-width:760px;margin:40px auto;line-height:1.55}h1{font-size:25px}h2{font-size:17px;border-bottom:1px solid #ccc;padding-bottom:5px}.notice{background:#f5ead9;padding:14px}</style></head><body><h1>${template.form}: ${template.title}</h1><div class="notice">General information only. Check against the current official form and rules and seek review where possible.</div><pre style="white-space:pre-wrap;font:inherit">${draftText.replaceAll('&', '&amp;').replaceAll('<', '&lt;')}</pre></body></html>`; const blob = new Blob([content], { type: format === 'txt' ? 'text/plain' : 'text/html' }); const url = URL.createObjectURL(blob); const anchor = document.createElement('a'); anchor.href = url; anchor.download = `courtpath-${template.id}-draft.${format}`; anchor.click(); URL.revokeObjectURL(url); };
+  const download = async (format: 'txt' | 'html' | 'docx') => {
+    if (format === 'docx') {
+      const children = [
+        new Paragraph({ text: `CourtReady — ${template.form}: ${template.title}`, heading: HeadingLevel.TITLE }),
+        new Paragraph({ text: 'Working draft — not an official court form. Check the current official source and seek advice where possible.' }),
+        ...template.sections.flatMap(section => [
+          new Paragraph({ text: section.title, heading: HeadingLevel.HEADING_1 }),
+          ...section.fields.map(field => new Paragraph({ children: [new TextRun({ text: `${field.label}: `, bold: true }), new TextRun(draft.fieldValues[field.id]?.trim() || '[not answered]')] })),
+        ]),
+        new Paragraph({ text: 'Evidence checklist', heading: HeadingLevel.HEADING_1 }),
+        ...Object.entries(draft.attachments).map(([id, checked]) => new Paragraph({ text: `${checked ? '[x]' : '[ ]'} ${id}` })),
+      ];
+      const blob = await Packer.toBlob(new Document({ sections: [{ children }] }));
+      const url = URL.createObjectURL(blob);
+      const anchor = document.createElement('a');
+      anchor.href = url;
+      anchor.download = `courtready-${template.id}-draft.docx`;
+      anchor.click();
+      URL.revokeObjectURL(url);
+      return;
+    }
+    const content = format === 'txt' ? draftText : `<html><head><meta charset="utf-8"><title>${template.form} draft</title><style>body{font-family:Arial,sans-serif;max-width:760px;margin:40px auto;line-height:1.55}h1{font-size:25px}h2{font-size:17px;border-bottom:1px solid #ccc;padding-bottom:5px}.notice{background:#f5ead9;padding:14px}</style></head><body><h1>${template.form}: ${template.title}</h1><div class="notice">General information only. Check against the current official form and rules and seek review where possible.</div><pre style="white-space:pre-wrap;font:inherit">${draftText.replaceAll('&', '&amp;').replaceAll('<', '&lt;')}</pre></body></html>`;
+    const blob = new Blob([content], { type: format === 'txt' ? 'text/plain' : 'text/html' });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = `courtready-${template.id}-draft.${format}`;
+    anchor.click();
+    URL.revokeObjectURL(url);
+  };
   return <Shell><div className="mx-auto max-w-7xl px-5 py-8 lg:px-8"><div className="no-print flex flex-wrap items-center justify-between gap-4"><Link href="/" className="inline-flex items-center gap-2 text-sm font-bold text-muted-foreground hover:text-foreground" data-testid="link-prepare-back"><ArrowLeft size={16} /> All guides</Link><div className="flex items-center gap-3 text-xs text-muted-foreground">{savedNotice ? <span className="flex items-center gap-1 text-primary"><Check size={14} /> Saved in this browser</span> : <span>Saved locally as you work</span>}<button onClick={resetDraft} className="rounded-lg px-2 py-1 font-bold text-muted-foreground hover:bg-muted hover:text-destructive" data-testid="button-clear-draft">Clear draft</button></div></div>
     <div className="mt-7 grid gap-8 xl:grid-cols-[minmax(0,1fr)_430px]"><section className="no-print min-w-0"><div className="rounded-2xl border border-border bg-card p-5 paper-shadow md:p-8"><div className="flex items-start justify-between gap-4"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-primary">{template.form} · {template.jurisdiction}</p><h1 className="mt-2 font-display text-4xl leading-tight md:text-5xl">{template.title}</h1><p className="mt-3 max-w-2xl text-sm leading-6 text-muted-foreground">{template.purpose}</p></div><div className="hidden rounded-xl bg-primary/10 p-3 text-primary md:block">{iconForJurisdiction(template.jurisdiction)}</div></div><div className="mt-7"><div className="flex justify-between text-xs font-bold text-muted-foreground"><span>Step {step + 1} of {allSteps.length}</span><span>{progress}% mapped</span></div><div className="mt-2 h-2 overflow-hidden rounded-full bg-muted"><div className="h-full rounded-full bg-primary transition-all duration-300" style={{ width: `${Math.max(7, progress)}%` }} /></div><div className="mt-4 flex gap-1.5 overflow-x-auto pb-1">{allSteps.map((item, index) => <button key={item.id} onClick={() => setStep(index)} className={`flex size-8 shrink-0 items-center justify-center rounded-full text-xs font-bold ${index === step ? 'bg-primary text-primary-foreground' : index < step ? 'bg-primary/15 text-primary' : 'bg-muted text-muted-foreground'}`} aria-label={`Go to step ${index + 1}: ${item.title}`} data-testid={`button-step-${index + 1}`}>{index < step ? <Check size={14} /> : index + 1}</button>)}</div></div></div>
         <div className="mt-5"><Disclaimer compact /></div>
@@ -388,8 +517,8 @@ function ReviewStep({ template, draft, missing }: { template: Template; draft: D
   return <div className="mt-5 space-y-5 fade-up"><div className={`rounded-2xl border p-5 md:p-8 ${missing.length ? 'border-accent/40 bg-accent/8' : 'border-primary/30 bg-primary/7'}`}><div className="flex gap-3"><div className="mt-0.5">{missing.length ? <CircleHelp className="text-accent" /> : <CheckCircle2 className="text-primary" />}</div><div><h2 className="font-display text-3xl">{missing.length ? `${missing.length} required ${missing.length === 1 ? 'answer' : 'answers'} still to add` : 'Your required answers are present'}</h2><p className="mt-2 text-sm leading-6 text-muted-foreground">{missing.length ? 'You can still review the draft, but fill these gaps before relying on it.' : 'Completeness is not correctness. Read the wording and compare it with the official source.'}</p>{missing.length > 0 && <ul className="mt-4 list-disc space-y-1 pl-5 text-sm font-semibold">{missing.map(field => <li key={field.id}>{field.label}</li>)}</ul>}</div></div></div><Disclaimer /><div className="rounded-2xl border border-border bg-card p-5 md:p-8"><h2 className="font-display text-3xl">Before you print or share</h2><div className="mt-5 space-y-3 text-sm text-muted-foreground">{['I have checked names, dates and the court reference against the source paperwork.', 'I have compared this draft with the current official form and procedural rules.', 'I have separated facts I know from assumptions, opinions and concerns.', 'I have considered safe contact, privacy and any accessibility needs.', 'Where possible, a solicitor, law centre, Citizens Advice or legal clinic has reviewed it.'].map(item => <div className="flex gap-3" key={item}><CheckCircle2 className="shrink-0 text-primary" size={18} /><span>{item}</span></div>)}</div><p className="mt-6 border-t border-border pt-5 text-xs leading-5 text-muted-foreground">Source noted for this guide: {template.sourceFile}. Fictional examples, if used, are examples only and must not be copied as facts.</p></div></div>;
 }
 
-function DraftPreview({ template, draft, draftText, missing, onPrint, onDownload }: { template: Template; draft: Draft; draftText: string; missing: Field[]; onPrint: () => void; onDownload: (format: 'txt' | 'html') => void }) {
-  return <div className="sticky top-24 space-y-4"><div className="no-print flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-primary">Live draft</p><p className="mt-1 text-sm text-muted-foreground">{missing.length ? `${missing.length} required gaps` : 'Required fields mapped'}</p></div><div className="flex gap-2"><button onClick={onPrint} className="rounded-lg border border-border bg-card p-2.5 hover:bg-muted" aria-label="Print draft" data-testid="button-print-draft"><Printer size={17} /></button><button onClick={() => onDownload('txt')} className="rounded-lg border border-border bg-card p-2.5 hover:bg-muted" aria-label="Download plain text" data-testid="button-download-text"><Download size={17} /></button></div></div><div className="print-paper rounded-xl border border-border bg-card p-6 paper-shadow md:p-8"><div className="border-b-2 border-foreground/80 pb-5"><p className="text-xs font-bold uppercase tracking-[.12em] text-muted-foreground">{template.jurisdiction} · {template.form}</p><h2 className="mt-2 font-display text-3xl">{template.title}</h2><p className="mt-2 text-xs leading-5 text-muted-foreground">Working draft · not an official court form</p></div><div className="mt-5 max-h-[52vh] overflow-y-auto whitespace-pre-wrap text-sm leading-7 text-foreground/85">{draftText}</div><div className="mt-6 border-t border-border pt-4 text-[11px] leading-5 text-muted-foreground">General information only. Check against the current official form and rules. This draft is not guaranteed to be correct or accepted.</div></div><div className="no-print grid grid-cols-2 gap-2"><button onClick={() => onDownload('html')} className="rounded-xl border border-primary/30 bg-primary/5 px-3 py-3 text-xs font-bold text-primary hover:bg-primary/10" data-testid="button-download-html">Download HTML</button><button onClick={onPrint} className="rounded-xl bg-primary px-3 py-3 text-xs font-bold text-primary-foreground hover:-translate-y-0.5" data-testid="button-print-draft-bottom">Print draft</button></div></div>;
+function DraftPreview({ template, draft, draftText, missing, onPrint, onDownload }: { template: Template; draft: Draft; draftText: string; missing: Field[]; onPrint: () => void; onDownload: (format: 'txt' | 'html' | 'docx') => void }) {
+  return <div className="sticky top-24 space-y-4"><div className="no-print flex items-center justify-between"><div><p className="text-xs font-bold uppercase tracking-[.16em] text-primary">Live draft</p><p className="mt-1 text-sm text-muted-foreground">{missing.length ? `${missing.length} required gaps` : 'Required fields mapped'}</p></div><div className="flex gap-2"><button onClick={onPrint} className="rounded-lg border border-border bg-card p-2.5 hover:bg-muted" aria-label="Print draft" data-testid="button-print-draft"><Printer size={17} /></button><button onClick={() => onDownload('txt')} className="rounded-lg border border-border bg-card p-2.5 hover:bg-muted" aria-label="Download plain text" data-testid="button-download-text"><Download size={17} /></button></div></div><div className="print-paper rounded-xl border border-border bg-card p-6 paper-shadow md:p-8"><div className="border-b-2 border-foreground/80 pb-5"><p className="text-xs font-bold uppercase tracking-[.12em] text-muted-foreground">{template.jurisdiction} · {template.form}</p><h2 className="mt-2 font-display text-3xl">{template.title}</h2><p className="mt-2 text-xs leading-5 text-muted-foreground">Working draft · not an official court form</p></div><div className="mt-5 max-h-[52vh] overflow-y-auto whitespace-pre-wrap text-sm leading-7 text-foreground/85">{draftText}</div><div className="mt-6 border-t border-border pt-4 text-[11px] leading-5 text-muted-foreground">General information only. Check against the current official form and rules. This draft is not guaranteed to be correct or accepted.</div></div><div className="no-print grid grid-cols-3 gap-2"><button onClick={() => onDownload('html')} className="rounded-xl border border-primary/30 bg-primary/5 px-3 py-3 text-xs font-bold text-primary hover:bg-primary/10" data-testid="button-download-html">HTML</button><button onClick={() => onDownload('docx')} className="rounded-xl border border-primary/30 bg-primary/5 px-3 py-3 text-xs font-bold text-primary hover:bg-primary/10" data-testid="button-download-docx">DOCX</button><button onClick={onPrint} className="rounded-xl bg-primary px-3 py-3 text-xs font-bold text-primary-foreground hover:-translate-y-0.5" data-testid="button-print-draft-bottom">Print</button></div></div>;
 }
 
 function buildDraftText(template: Template, draft: Draft) {
@@ -400,7 +529,7 @@ function buildDraftText(template: Template, draft: Draft) {
 }
 
 function NotFound() {
-  return <Shell><div className="mx-auto max-w-xl px-5 py-24 text-center"><div className="mx-auto grid size-16 place-items-center rounded-2xl bg-primary/10 text-primary"><FileText /></div><h1 className="mt-6 font-display text-4xl">Page not found</h1><p className="mt-3 text-muted-foreground">The page you were looking for has moved or does not exist.</p><Link href="/" className="mt-7 inline-flex rounded-xl bg-primary px-5 py-3 text-sm font-bold text-primary-foreground" data-testid="link-not-found-home">Go to CourtPath</Link></div></Shell>;
+  return <Shell><div className="mx-auto max-w-xl px-5 py-24 text-center"><div className="mx-auto grid size-16 place-items-center rounded-2xl bg-primary/10 text-primary"><FileText /></div><h1 className="mt-6 font-display text-4xl">Page not found</h1><p className="mt-3 text-muted-foreground">The page you were looking for has moved or does not exist.</p><Link href="/" className="mt-7 inline-flex rounded-xl bg-primary px-5 py-3 text-sm font-bold text-primary-foreground" data-testid="link-not-found-home">Go to CourtReady</Link></div></Shell>;
 }
 
 const queryClient = new QueryClient();
