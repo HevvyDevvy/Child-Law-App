@@ -11,14 +11,14 @@
   "background_color": "#cfcd64",
   "theme_color": "#2C7A7B",
   "icons": [
-    { "src": "icons/icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
-    { "src": "icons/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" },
-    { "src": "icons/icon-512-maskable.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
+    { "src": "icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
+    { "src": "icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" },
+    { "src": "icon-512-maskable.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
   ],
   "screenshots": [
-    { "src": "screenshots/screenshot-1-home.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" },
-    { "src": "screenshots/screenshot-2-rights.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" },
-    { "src": "screenshots/screenshot-3-intro.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" },
-    { "src": "screenshots/screenshot-4-draft.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" }
+    { "src": "screenshot-1-home.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" },
+    { "src": "screenshot-2-rights.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" },
+    { "src": "screenshot-3-intro.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" },
+    { "src": "screenshot-4-draft.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" }
   ]
 }
