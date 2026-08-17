@@ -1,0 +1,21 @@
+{
+  "background_color": "#cfcd64",
+  "description": "CourtReady helps people organise rights, facts, dates and documents for UK civil and family court procedures. General information only, not legal advice.",
+  "dir": "ltr",
+  "display": "standalone",
+  "name": "CourtReady",
+  "orientation": "any",
+  "scope": "/",
+  "short_name": "CourtReady",
+  "start_url": "/",
+  "theme_color": "#2C7A7B",
+  "icons": [
+    {
+      "src": "/icon-512.svg",
+      "type": "image/svg+xml",
+      "sizes": "640x200",
+      "purpose": "any"
+    }
+  ],
+  "id": "courtready"
+}

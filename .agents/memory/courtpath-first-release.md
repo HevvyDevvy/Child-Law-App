@@ -3,7 +3,7 @@ name: CourtPath first release
 description: Product boundary and safety posture for the initial court-document preparation app.
 ---
 
-CourtPath UK's first release is intentionally browser-only: users prepare editable working drafts locally and export them themselves; no case data is submitted to a server.
+CourtReady's first release is intentionally browser-only: users prepare editable working drafts locally and export them themselves; no case data is submitted to a server. IndexedDB is preferred, with a local fallback for browsers where it is unavailable.
 
 **Why:** Court and family case details are sensitive, and the first user need is guided preparation rather than accounts, collaboration, or online filing. The supplied materials also require checking current official forms and rules.
 
