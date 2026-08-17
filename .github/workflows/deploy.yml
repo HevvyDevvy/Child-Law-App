@@ -39,10 +39,12 @@ jobs:
             git config user.email "github-actions[bot]@users.noreply.github.com"
             git add pnpm-lock.yaml
             git commit -m "chore: sync pnpm-lock.yaml [skip ci]"
+            git fetch origin replit-agent
+            git rebase origin/replit-agent
             git push
           else
             echo "Lockfile already in sync."
-          fi
+          finame: Commit updated lockfile if it changed
 
       - name: Build courtpath-uk
         run: pnpm --filter @workspace/courtpath-uk run build
