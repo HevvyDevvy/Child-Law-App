@@ -1,21 +1,24 @@
 {
-  "background_color": "#cfcd64",
-  "description": "CourtReady helps people organise rights, facts, dates and documents for UK civil and family court procedures. General information only, not legal advice.",
-  "dir": "ltr",
-  "display": "standalone",
+  "id": "courtready",
   "name": "CourtReady",
-  "orientation": "any",
-  "scope": "/",
   "short_name": "CourtReady",
-  "start_url": "/",
+  "description": "CourtReady helps people organise rights, facts, dates and documents for UK civil and family court procedures. General information only, not legal advice.",
+  "start_url": ".",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "any",
+  "dir": "ltr",
+  "background_color": "#cfcd64",
   "theme_color": "#2C7A7B",
   "icons": [
-    {
-      "src": "/icon-512.svg",
-      "type": "image/svg+xml",
-      "sizes": "640x200",
-      "purpose": "any"
-    }
+    { "src": "icons/icon-192.png", "type": "image/png", "sizes": "192x192", "purpose": "any" },
+    { "src": "icons/icon-512.png", "type": "image/png", "sizes": "512x512", "purpose": "any" },
+    { "src": "icons/icon-512-maskable.png", "type": "image/png", "sizes": "512x512", "purpose": "maskable" }
   ],
-  "id": "courtready"
+  "screenshots": [
+    { "src": "screenshots/screenshot-1-home.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" },
+    { "src": "screenshots/screenshot-2-rights.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" },
+    { "src": "screenshots/screenshot-3-intro.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" },
+    { "src": "screenshots/screenshot-4-draft.png", "type": "image/png", "sizes": "540x1092", "form_factor": "narrow" }
+  ]
 }
